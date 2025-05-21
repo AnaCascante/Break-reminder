@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Break Reminder</title>
+  <style>
+    #popup {
+      display: none;
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #f8f8f8;
+      border: 2px solid #333;
+      padding: 30px 40px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      font-size: 1.5em;
+      text-align: center;
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+  <div id="popup">
+    <span id="message">Take a break of <span id="countdown">20</span> sec</span>
+  </div>
+  <script>
+    function showPopup() {
+      const popup = document.getElementById('popup');
+      const countdownElem = document.getElementById('countdown');
+      let timeLeft = 20;
+      countdownElem.textContent = timeLeft;
+      popup.style.display = 'block';
+      const interval = setInterval(() => {
+        timeLeft--;
+        countdownElem.textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          popup.style.display = 'none';
+        }
+      }, 1000);
+    }
+
+    // Show popup every 20 minutes (1200000 ms)
+    setInterval(showPopup, 20 * 60 * 1000);
+
+    // Optionally, show it once at the start
+    showPopup();
+  </script>
+</body>
+</html>
