@@ -21,31 +21,102 @@
   </style>
 </head>
 <body>
+  <div id="main-timer">
+    Next break in: <span id="main-countdown">20:00</span>
+  </div>
   <div id="popup">
     <span id="message">Take a break of <span id="countdown">20</span> sec</span>
   </div>
+  <style>
+    #main-timer {
+      font-size: 2em;
+      margin-top: 40px;
+      text-align: center;
+      color: #333;
+    }
+    #popup {
+      display: none;
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #ffe066;
+      border: 4px solid #ff6f00;
+      padding: 40px 60px;
+      box-shadow: 0 4px 30px rgba(255,111,0,0.2);
+      font-size: 2em;
+      text-align: center;
+      z-index: 9999;
+      color: #ff6f00;
+      animation: none;
+    }
+    #popup.break {
+      background: #ff6f00;
+      color: #fff;
+      animation: shake 0.5s infinite alternate;
+      border-color: #fff;
+    }
+    @keyframes shake {
+      from { transform: translate(-50%, -50%) rotate(-2deg); }
+      to { transform: translate(-50%, -50%) rotate(2deg); }
+    }
+  </style>
   <script>
-    function showPopup() {
-      const popup = document.getElementById('popup');
-      const countdownElem = document.getElementById('countdown');
-      let timeLeft = 20;
-      countdownElem.textContent = timeLeft;
-      popup.style.display = 'block';
-      const interval = setInterval(() => {
-        timeLeft--;
-        countdownElem.textContent = timeLeft;
-        if (timeLeft <= 0) {
-          clearInterval(interval);
-          popup.style.display = 'none';
+    let breakInterval = 20 * 60; // 20 minutes in seconds
+    let breakDuration = 20;      // 20 seconds
+    let timer = breakInterval;
+    let intervalId = null;
+    let onBreak = false;
+
+    const mainCountdown = document.getElementById('main-countdown');
+    const popup = document.getElementById('popup');
+    const popupCountdown = document.getElementById('countdown');
+
+    function formatTime(seconds) {
+      const min = Math.floor(seconds / 60).toString().padStart(2, '0');
+      const sec = (seconds % 60).toString().padStart(2, '0');
+      return `${min}:${sec}`;
+    }
+
+    function updateMainTimer() {
+      mainCountdown.textContent = formatTime(timer);
+    }
+
+    function startMainTimer() {
+      timer = breakInterval;
+      updateMainTimer();
+      intervalId = setInterval(() => {
+        timer--;
+        updateMainTimer();
+        if (timer <= 0) {
+          clearInterval(intervalId);
+          startBreak();
         }
       }, 1000);
     }
 
-    // Show popup every 20 minutes (1200000 ms)
-    setInterval(showPopup, 20 * 60 * 1000);
+    function startBreak() {
+      onBreak = true;
+      popup.classList.add('break');
+      popup.style.display = 'block';
+      let breakTime = breakDuration;
+      popupCountdown.textContent = breakTime;
+      mainCountdown.textContent = "BREAK!";
+      const breakIntervalId = setInterval(() => {
+        breakTime--;
+        popupCountdown.textContent = breakTime;
+        if (breakTime <= 0) {
+          clearInterval(breakIntervalId);
+          popup.style.display = 'none';
+          popup.classList.remove('break');
+          onBreak = false;
+          startMainTimer();
+        }
+      }, 1000);
+    }
 
-    // Optionally, show it once at the start
-    showPopup();
+    // Start the first main timer on page load
+    startMainTimer();
   </script>
 </body>
 </html>
