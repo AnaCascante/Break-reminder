@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Break Reminder</title>
+  <style>
+    body {
+      width: 220px;
+      height: 120px;
+      background: #222;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 16px;
+    }
+    #status {
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="status">Loading...</div>
+  <script>
+    chrome.runtime.getBackgroundPage(function(bg) {
+      const status = document.getElementById('status');
+      if (bg.onBreak) {
+        status.textContent = "Take a break! 20 seconds.";
+      } else {
+        let min = Math.floor(bg.timer / 60).toString().padStart(2, "0");
+        let sec = (bg.timer % 60).toString().padStart(2, "0");
+        status.textContent = "Next break in: " + min + ":" + sec;
+      }
+    });
+  </script>
+</body>
+</html>
+
+
