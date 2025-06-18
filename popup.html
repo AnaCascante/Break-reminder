@@ -6,7 +6,7 @@
   <style>
     body {
       width: 220px;
-      height: 120px;
+      height: 180px;
       background: #222;
       color: #fff;
       font-family: Arial, sans-serif;
@@ -14,27 +14,31 @@
       margin: 0;
       padding: 16px;
     }
-    #status {
-      font-size: 1.2em;
-      margin-top: 20px;
+    #break-gif {
+      display: none;
+      margin-top: 10px;
+      width: 120px;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
-  <div id="status">Loading...</div>
+  <div id="status"></div>
+  <img id="break-gif" src="assets/dancing.gif" alt="Happy person dancing">
   <script>
     chrome.runtime.getBackgroundPage(function(bg) {
       const status = document.getElementById('status');
+      const breakGif = document.getElementById('break-gif');
       if (bg.onBreak) {
         status.textContent = "Take a break! 20 seconds.";
+        breakGif.style.display = "block";
       } else {
         let min = Math.floor(bg.timer / 60).toString().padStart(2, "0");
         let sec = (bg.timer % 60).toString().padStart(2, "0");
         status.textContent = "Next break in: " + min + ":" + sec;
+        breakGif.style.display = "none";
       }
     });
   </script>
 </body>
 </html>
-
-
