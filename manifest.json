@@ -8,14 +8,14 @@
   },
   "default_icon": {
   "16": "assets/icon16.png",
-  "48": "assets/icon48.png",
-  "128": "icons8-workspace-64.png"
+  "48": "assets/icons8-wise-mind-60.png",
+  "128": "assets/icons8-workspace-64.png"
 },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icon16.png",
-      "48": "",
+      "48": "icons8-wise-mind-60.png",
       "128": "icons8-workspace-64.png"
     }
   },
