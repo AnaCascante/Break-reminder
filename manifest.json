@@ -7,14 +7,14 @@
     "service_worker": "background.js"
   },
   "default_icon": {
-  "16": "assets/icon16.png",
+  "16": "assets/icons8-stretching-64.png",
   "48": "assets/icons8-wise-mind-60.png",
   "128": "assets/icons8-workspace-64.png"
 },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icon16.png",
+      "16": "icons8-stretching-64.png",
       "48": "icons8-wise-mind-60.png",
       "128": "icons8-workspace-64.png"
     }
